@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
 import data from "../assets/data.json";
-import { useNavigate } from "react-router-dom";
+
 interface Product {
-  id: any;
+  id: number;  // It's better to explicitly set the type to `number`
   title: string;
   company: string;
   description: string;
@@ -18,17 +18,17 @@ interface Product {
 }
 
 const Details = () => {
-  const navigate = useNavigate()
-
   const { id } = useParams<{ id: string }>();
-  const product = data.find((item: Product) => item.id === parseInt(id));
+
+  // Ensure that `id` is not undefined and can be parsed to a number
+  const product = id ? data.find((item: Product) => item.id === parseInt(id)) : undefined;
 
   if (!product) {
     return <div>Product not found</div>;
   }
 
   return (
-    <div className="max-w-[1100px] mt-20 mx-auto flex items-start p-10 text-white">
+    <div className="flex items-start p-10 bg-gray-900 text-white">
       <div className="flex-shrink-0">
         <img
           className="w-[400px] h-[400px] rounded-lg"
@@ -62,11 +62,8 @@ const Details = () => {
           </select>
         </div>
 
-        <button className=" mr-2 bg-purple-600 text-white py-2 px-4 rounded-lg">
+        <button className="bg-purple-600 text-white py-2 px-4 rounded-lg">
           ADD TO BAG
-        </button> 
-        <button onClick={() => {navigate("/")}} className="bg-purple-600 text-white py-2 px-4 rounded-lg">
-          BACK TO HOME
         </button>
       </div>
     </div>
